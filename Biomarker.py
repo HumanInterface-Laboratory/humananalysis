@@ -9,8 +9,8 @@ from scipy import integrate
 import json
 import os
 from scipy.stats import linregress
-from src.py_ecg_detectors.ecgdetectors import Detectors
-from src.py_ecg_detectors.hrv import HRV
+from py_ecg_detectors.ecgdetectors import Detectors
+from py_ecg_detectors.hrv import HRV
 import scipy
 
 
