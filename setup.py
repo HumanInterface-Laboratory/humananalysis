@@ -23,6 +23,6 @@ setup(
         # から該当しそなもを選んでおけばよい。
     ],
     keywords='キーワード',
-    install_requires=["依存関係のあるパッケージ"],
+    # install_requires=["依存関係のあるパッケージ"],
 )
 
