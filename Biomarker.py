@@ -261,7 +261,7 @@ class Biomarker():
             ends: list = [],
             method: str = None,
             prominence: float = 1, height: float = None, re_sampling_freq: float = 1,
-            plot: bool = True, plot_vorbose: bool = False, revECG: bool = False) -> list:
+            plot: bool = True, plot_vorbose: bool = False) -> list:
 
         if len(starts) != len(ends):
             raise Exception('starts and ends are must be same length')
@@ -272,8 +272,7 @@ class Biomarker():
 
         for start, end in zip(starts, ends):
             ECGSignal = self.DataFrame["A5"].iloc[start:end].astype('float').values
-            if revECG:
-                ECGSignal = -ECGSignal
+
             # 以下岡野LFHF3を使用
             peak_index_array, filterd_signal = detectors.two_average_detector(ECGSignal)
             peak_index_array = np.array(peak_index_array)
