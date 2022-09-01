@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 
 setup(
@@ -9,6 +9,7 @@ setup(
     url='https://github.com/kyosukemine/humananalysis',
     author='kyosukemine',
     # author_email='メールアドレス',
+    packages=find_packages(),
     install_requires=['numpy',
                       'pathlib2;python_version<"3.4"',
                       'scipy',
@@ -25,4 +26,3 @@ setup(
     keywords='キーワード',
     # install_requires=["依存関係のあるパッケージ"],
 )
-
