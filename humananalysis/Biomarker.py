@@ -25,7 +25,7 @@ class Biomarker():
 
         Examples:
 
-        >>> Bio = Biomarker.Biomarker("./data.txt", DeviceName="Nexus")
+        >>> Bio = Biomarker("./data.txt", DeviceName="Nexus")
         >>> Bio.showGraph()
         """
 

@@ -1,4 +1,4 @@
-from humananalysis.Biomarker import Biomarker
+from humananalysis import Biomarker
 
 datapath = "./example_data/Nexus.txt"
 # datapath = "./example_data/Nihonkoden.txt"
