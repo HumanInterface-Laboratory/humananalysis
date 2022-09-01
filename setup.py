@@ -3,13 +3,13 @@ from setuptools import setup, find_packages
 
 setup(
     name='humananalysis',
-    version="0.0.8",                 # X.Y.Z 形式
+    version="0.0.9",                 # X.Y.Z 形式
     description="短めの説明",
     long_description="長めの説明",
     url='https://github.com/kyosukemine/humananalysis',
     author='kyosukemine',
     # author_email='メールアドレス',
-    packages=find_packages(),
+    packages=find_packages(exclude=['usage_example']),
     install_requires=['numpy',
                       'pathlib2;python_version<"3.4"',
                       'scipy',
