@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='humananalysis',
-    version="0.0.11",                 # X.Y.Z 形式
+    version="0.0.12",                 # X.Y.Z 形式
     description="短めの説明",
     long_description="長めの説明",
     url='https://github.com/kyosukemine/humananalysis',
