@@ -1,8 +1,8 @@
 from humananalysis.Biomarker import Biomarker
 
-datapath = "../example_data/Nexus.txt"
-# datapath = "../example_data/Nihonkoden.txt"
-# datapath = "../example_data/Biolog.csv"
+datapath = "./example_data/Nexus.txt"
+# datapath = "./example_data/Nihonkoden.txt"
+# datapath = "./example_data/Biolog.csv"
 
 Bio = Biomarker(datapath, DeviceName="Nexus")
 # Bio = Biomarker(datapath, DeviceName="Nihonkoden")
