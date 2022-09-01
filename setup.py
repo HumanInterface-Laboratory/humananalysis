@@ -9,6 +9,7 @@ setup(
     url='https://github.com/kyosukemine/humananalysis',
     author='kyosukemine',
     # author_email='メールアドレス',
+    package_dir={'': 'humananalysis'},
     packages=find_packages('humananalysis', exclude=['usage_example']),
     install_requires=['numpy',
                       'pathlib2;python_version<"3.4"',
