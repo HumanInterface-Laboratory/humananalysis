@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 
 setup(
-    name='humananalsys',
+    name='humananalysis',
     version="0.0.1",                 # X.Y.Z 形式
     description="短めの説明",
     long_description="長めの説明",
