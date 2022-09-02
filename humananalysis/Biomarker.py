@@ -259,8 +259,7 @@ class Biomarker():
             self, channel: str = "A5", starts: list = [],
             ends: list = [],
             method: str = None,
-            prominence: float = 1, height: float = None, re_sampling_freq: float = 1,
-            plot: bool = True, plot_vorbose: bool = False) -> list:
+            plot: bool = True) -> list:
         """引数で指定された解析による結果を返す
 
         Args:
@@ -275,8 +274,8 @@ class Biomarker():
 
         Examples:
 
-        >>> Bio = Biomarker("./data.txt", DeviceName="Nexus")
-        >>> Bio.showGraph()
+        >>> Bio = Biomarker("./data.txt", DeviceName="Nihonkoden")
+        >>> Bio.analyzehrv("A5", [0], [-1], "fanalysis")
         """
         if len(starts) != len(ends):
             raise Exception('starts and ends are must be same length')
