@@ -20,8 +20,8 @@ class Biomarker():
         """データのパスからpandas形式で読み込み
 
         Args:
-            DataPath : データファイルのパス
-            DeviceName : 計測機器名[Nihonkoden, Nexus, Biolog]
+            DataPath (str): データファイルのパス
+            DeviceName (str): 計測機器名[Nihonkoden, Nexus, Biolog]
 
         Examples:
 
@@ -262,7 +262,23 @@ class Biomarker():
             method: str = None,
             prominence: float = 1, height: float = None, re_sampling_freq: float = 1,
             plot: bool = True, plot_vorbose: bool = False) -> list:
+        """引数で指定された解析による結果を返す
 
+        Args:
+            channel (str): 心電図のチャンネルにあたるカラム
+            starts (List): 解析したい信号の開始インデックスのリスト
+            ends (List): 解析したい信号の終了インデックスのリスト
+            method (str): 心拍変動解析の手法名
+            plot (bool): Rピークの検出結果のグラフを表示するかどうか
+
+        Returns:
+            List : 各start, end区間の指標のリスト
+
+        Examples:
+
+        >>> Bio = Biomarker("./data.txt", DeviceName="Nexus")
+        >>> Bio.showGraph()
+        """
         if len(starts) != len(ends):
             raise Exception('starts and ends are must be same length')
 
