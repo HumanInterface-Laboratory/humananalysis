@@ -145,7 +145,7 @@ class Biomarker():
         return
 
     def calLFHF(
-            self, starts: list = [],
+            self, channel: str = "A5", starts: list = [],
             ends: list = [],
             prominence: float = 1, height: float = None, re_sampling_freq: float = 1,
             plot: bool = True, plot_vorbose: bool = False, revECG: bool = False) -> list:
@@ -154,7 +154,7 @@ class Biomarker():
             raise Exception('starts and ends are must be same length')
         LFHFlist = []
         for start, end in zip(starts, ends):
-            ECGSignal = self.DataFrame["A5"].iloc[start:end].astype('float').values
+            ECGSignal = self.DataFrame[channel].iloc[start:end].astype('float').values
             if revECG:
                 ECGSignal = -ECGSignal
             # 以下岡野LFHF3を使用
@@ -221,7 +221,7 @@ class Biomarker():
         return LFHFlist
 
     def calLFHF_v2(
-            self, starts: list = [],
+            self, channel: str = "A5", starts: list = [],
             ends: list = [],
             prominence: float = 1, height: float = None, re_sampling_freq: float = 1,
             plot: bool = True, plot_vorbose: bool = False) -> list:
@@ -232,7 +232,7 @@ class Biomarker():
         detectors = Detectors(int(1/self.Interval))
         hrv = HRV(int(1/self.Interval))
         for start, end in zip(starts, ends):
-            ECGSignal = self.DataFrame["A5"].iloc[start:end].astype('float').values
+            ECGSignal = self.DataFrame[channel].iloc[start:end].astype('float').values
 
             peak_index_array, filterd_signal = detectors.two_average_detector(ECGSignal)
             peak_index_array = np.array(peak_index_array)
@@ -257,7 +257,7 @@ class Biomarker():
         return LFHFlist
 
     def analyzehrv(
-            self, starts: list = [],
+            self, channel: str = "A5", starts: list = [],
             ends: list = [],
             method: str = None,
             prominence: float = 1, height: float = None, re_sampling_freq: float = 1,
@@ -271,9 +271,8 @@ class Biomarker():
         hrv = HRV(int(1/self.Interval))
 
         for start, end in zip(starts, ends):
-            ECGSignal = self.DataFrame["A5"].iloc[start:end].astype('float').values
+            ECGSignal = self.DataFrame[channel].iloc[start:end].astype('float').values
 
-            # 以下岡野LFHF3を使用
             peak_index_array, filterd_signal = detectors.two_average_detector(ECGSignal)
             peak_index_array = np.array(peak_index_array)
             time = np.arange(0, len(filterd_signal)*self.Interval, self.Interval)
@@ -298,7 +297,7 @@ class Biomarker():
         return hrv_index_list
 
     def calHR(
-            self, starts: list = [],
+            self, channel: str = "A5", starts: list = [],
             ends: list = [],
             prominence: float = 1, height: float = None, re_sampling_freq: float = 1,
             plot: bool = True, plot_vorbose: bool = False, revECG: bool = False) -> list:
@@ -309,7 +308,7 @@ class Biomarker():
         detectors = Detectors(int(1/self.Interval))
         hrv = HRV(int(1/self.Interval))
         for start, end in zip(starts, ends):
-            ECGSignal = self.DataFrame["A5"].iloc[start:end].astype('float').values
+            ECGSignal = self.DataFrame[channel].iloc[start:end].astype('float').values
             if revECG:
                 ECGSignal = -ECGSignal
             # 以下岡野LFHF3を使用
