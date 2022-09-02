@@ -144,7 +144,7 @@ class Biomarker():
 
 
     def calLFHF(
-            self, channel: str = "A5", starts: list = [],
+            self, column: str = "A5", starts: list = [],
             ends: list = [],
             prominence: float = 1, height: float = None, re_sampling_freq: float = 1,
             plot: bool = True, plot_vorbose: bool = False, revECG: bool = False) -> list:
@@ -158,7 +158,7 @@ class Biomarker():
             raise Exception('starts and ends are must be same length')
         LFHFlist = []
         for start, end in zip(starts, ends):
-            ECGSignal = self.DataFrame[channel].iloc[start:end].astype('float').values
+            ECGSignal = self.DataFrame[column].iloc[start:end].astype('float').values
             if revECG:
                 ECGSignal = -ECGSignal
             # 以下岡野LFHF3を使用
@@ -225,7 +225,7 @@ class Biomarker():
         return LFHFlist
 
     def calLFHF_v2(
-            self, channel: str = "A5", starts: list = [],
+            self, column: str = "A5", starts: list = [],
             ends: list = [],
             prominence: float = 1, height: float = None, re_sampling_freq: float = 1,
             plot: bool = True, plot_vorbose: bool = False) -> list:
@@ -236,7 +236,7 @@ class Biomarker():
         detectors = Detectors(int(1/self.Interval))
         hrv = HRV(int(1/self.Interval))
         for start, end in zip(starts, ends):
-            ECGSignal = self.DataFrame[channel].iloc[start:end].astype('float').values
+            ECGSignal = self.DataFrame[column].iloc[start:end].astype('float').values
 
             peak_index_array, filterd_signal = detectors.two_average_detector(ECGSignal)
             peak_index_array = np.array(peak_index_array)
@@ -261,14 +261,14 @@ class Biomarker():
         return LFHFlist
 
     def analyzehrv(
-            self, channel: str = "A5", starts: list = [],
+            self, column: str = "A5", starts: list = [],
             ends: list = [],
             method: str = None,
             plot: bool = True) -> list:
         """引数で指定された解析による結果を返す
 
         Args:
-            channel (str): 心電図のチャンネルにあたるカラム
+            column (str): 心電図のチャンネルにあたるカラム
             starts (List): 解析したい信号の開始インデックスのリスト
             ends (List): 解析したい信号の終了インデックスのリスト
             method (str): 心拍変動解析の手法名
@@ -290,7 +290,7 @@ class Biomarker():
         hrv = HRV(int(1/self.Interval))
 
         for start, end in zip(starts, ends):
-            ECGSignal = self.DataFrame[channel].iloc[start:end].astype('float').values
+            ECGSignal = self.DataFrame[column].iloc[start:end].astype('float').values
 
             peak_index_array, filterd_signal = detectors.two_average_detector(ECGSignal)
             peak_index_array = np.array(peak_index_array)
@@ -316,7 +316,7 @@ class Biomarker():
         return hrv_index_list
 
     def calHR(
-            self, channel: str = "A5", starts: list = [],
+            self, column: str = "A5", starts: list = [],
             ends: list = [],
             prominence: float = 1, height: float = None, re_sampling_freq: float = 1,
             plot: bool = True, plot_vorbose: bool = False, revECG: bool = False) -> list:
@@ -327,7 +327,7 @@ class Biomarker():
         detectors = Detectors(int(1/self.Interval))
         hrv = HRV(int(1/self.Interval))
         for start, end in zip(starts, ends):
-            ECGSignal = self.DataFrame[channel].iloc[start:end].astype('float').values
+            ECGSignal = self.DataFrame[column].iloc[start:end].astype('float').values
             if revECG:
                 ECGSignal = -ECGSignal
             # 以下岡野LFHF3を使用
@@ -385,39 +385,39 @@ class Biomarker():
             columns = self.Address[:-1]
         return df.loc[:, columns]
 
-    def getRowSignal(self, channel="", starts: list = [], ends: list = []) -> list:
+    def getRowSignal(self, column="", starts: list = [], ends: list = []) -> list:
         df = self.DataFrame
         signals = []
 
         for start, end in zip(starts, ends):
-            signal = df[channel].iloc[start:end].astype(float).values.flatten()
+            signal = df[column].iloc[start:end].astype(float).values.flatten()
             signals.append(signal)
         return signals
 
-    def calRootMeanSquareSignal(self, channels=[], starts: list = [], ends: list = [], window_time_ms: int = 50, plot: bool = False) -> list:
+    def calRootMeanSquareSignal(self, columns=[], starts: list = [], ends: list = [], window_time_ms: int = 50, plot: bool = False) -> list:
         def _rms(d): return np.sqrt((d ** 2).sum() / d.size)
         df = self.DataFrame
         signals = []
-        for channel in channels:
+        for column in columns:
             for start, end in zip(starts, ends):
                 window_size = int(window_time_ms/(self.Interval*1000))
-                # df["rms_signal"] = df[channel].iloc[start:end].rolling(window=window_size, min_periods=1, center=False).apply(_rms)
+                # df["rms_signal"] = df[column].iloc[start:end].rolling(window=window_size, min_periods=1, center=False).apply(_rms)
                 # rms_signal = df["rms_signal"].values
-                rms_signal = df[channel].iloc[start:end].rolling(window=window_size, min_periods=1, center=False).apply(_rms).values
+                rms_signal = df[column].iloc[start:end].rolling(window=window_size, min_periods=1, center=False).apply(_rms).values
                 signals.append(rms_signal)
                 if plot:
                     # print(len(rms_signal), start, end)
                     self.__dfplot(rms_signal, start, end)
         return signals
 
-    def calMVC(self, channels=[], starts: list = [], ends: list = [], window_time_ms: int = 50, plot: bool = False) -> list:
+    def calMVC(self, columns=[], starts: list = [], ends: list = [], window_time_ms: int = 50, plot: bool = False) -> list:
         def _rms(d): return np.sqrt((d ** 2).sum() / d.size)
         df = self.DataFrame
         signals = []
-        for channel in channels:
+        for column in columns:
             for start, end in zip(starts, ends):
                 window_size = int(window_time_ms/(self.Interval*1000))
-                df["rms_signal"] = df[channel].iloc[start:end].rolling(window=window_size, min_periods=1, center=False).apply(_rms)
+                df["rms_signal"] = df[column].iloc[start:end].rolling(window=window_size, min_periods=1, center=False).apply(_rms)
                 rms_signal = df["rms_signal"].dropna().values
                 # signals.append(rms_signal)
                 signal = df["rms_signal"].iloc[start:end].rolling(window=3000, min_periods=1, center=False).apply(sum).values
@@ -509,7 +509,7 @@ class Biomarker():
             num_of_peaks.append(len(peak_index_array))
         return num_of_peaks
 
-    def annotation(self, channels: list = [], starts: list = [], ends: list = [], filename: str = ""):
+    def annotation(self, columns: list = [], starts: list = [], ends: list = [], filename: str = ""):
         def select_callback(eclick, erelease):
             """
             Callback for line selection.
@@ -536,9 +536,9 @@ class Biomarker():
                 ax.axvline(xmin, color="r")
                 ax.axvline(xmax, color="pink")
                 print(xmin, xmax)
-                if xmin not in dic[channel]["chewing_starts"]:
-                    dic[channel]["chewing_starts"].append(xmin)
-                    dic[channel]["chewing_ends"].append(xmax)
+                if xmin not in dic[column]["chewing_starts"]:
+                    dic[column]["chewing_starts"].append(xmin)
+                    dic[column]["chewing_ends"].append(xmax)
                 with open(f"./addData/{filename}.json", "w") as f:
                     json.dump(dic, f, indent=1)
                 plt.draw()
@@ -548,9 +548,9 @@ class Biomarker():
                 ax.axvline(xmin, color="gold")
                 ax.axvline(xmax, color="lemonchiffon")
                 print(xmin, xmax)
-                if xmin not in dic[channel]["MVC_starts"]:
-                    dic[channel]["MVC_starts"].append(xmin)
-                    dic[channel]["MVC_ends"].append(xmax)
+                if xmin not in dic[column]["MVC_starts"]:
+                    dic[column]["MVC_starts"].append(xmin)
+                    dic[column]["MVC_ends"].append(xmax)
                 with open(f"./addData/{filename}.json", "w") as f:
                     json.dump(dic, f, indent=1)
                 plt.draw()
@@ -560,30 +560,30 @@ class Biomarker():
             with open(f"./addData/{filename}.json", "r") as f:
                 try:
                     dic = json.load(f)
-                    for channel in channels:
+                    for column in columns:
                         try:
-                            dic[channel]
+                            dic[column]
                         except:
-                            dic[channel] = {"chewing_starts": [], "chewing_ends": [], "MVC_starts": [], "MVC_ends": []}
+                            dic[column] = {"chewing_starts": [], "chewing_ends": [], "MVC_starts": [], "MVC_ends": []}
                 except:
-                    dic = {channel: {"chewing_starts": [], "chewing_ends": [], "MVC_starts": [], "MVC_ends": []} for channel in channels}
+                    dic = {column: {"chewing_starts": [], "chewing_ends": [], "MVC_starts": [], "MVC_ends": []} for column in columns}
         else:
-            dic = {channel: {"chewing_starts": [], "chewing_ends": [], "MVC_starts": [], "MVC_ends": []} for channel in channels}
+            dic = {column: {"chewing_starts": [], "chewing_ends": [], "MVC_starts": [], "MVC_ends": []} for column in columns}
             Path(f"./addData/{filename}.json").touch(exist_ok=False)
 
-        for channel in channels:
+        for column in columns:
             for start, end in zip(starts, ends):
-                signal = df[channel].iloc[start:end].astype(float).values
+                signal = df[column].iloc[start:end].astype(float).values
                 fig = plt.figure(constrained_layout=True)
                 ax = fig.subplots()
                 ax.plot(range(len(signal)), signal)
-                ax.set_title(filename+channel+"\nPress 't' to mark MVC"+"\nPress 'a' to mark sosyaku")
+                ax.set_title(filename+column+"\nPress 't' to mark MVC"+"\nPress 'a' to mark sosyaku")
 
                 for idx in df.iloc[start:end][df.iloc[start:end]['Event'].str.startswith('#* M', na=False)].index:
                     plt.axvline(idx, ls="-", color="green")
                 # print(dic)
-                chewing_starts, chewing_ends = dic[channel]["chewing_starts"], dic[channel]["chewing_ends"]
-                MVC_starts, MVC_ends = dic[channel]["MVC_starts"], dic[channel]["MVC_ends"]
+                chewing_starts, chewing_ends = dic[column]["chewing_starts"], dic[column]["chewing_ends"]
+                MVC_starts, MVC_ends = dic[column]["MVC_starts"], dic[column]["MVC_ends"]
                 for _start in chewing_starts:
                     plt.axvline(_start, ls="-", color="gray")
                 for _end in chewing_ends:
