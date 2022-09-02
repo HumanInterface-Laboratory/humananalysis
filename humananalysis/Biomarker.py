@@ -148,7 +148,12 @@ class Biomarker():
             ends: list = [],
             prominence: float = 1, height: float = None, re_sampling_freq: float = 1,
             plot: bool = True, plot_vorbose: bool = False, revECG: bool = False) -> list:
+        """自作のLF/HF算出関数(deprecated:非推奨)そのうち消す
 
+        正しく算出できているか怪しいのでcalLFHF_v2()またはanalyzehrv(method="fanalysis")を使って
+
+
+        """
         if len(starts) != len(ends):
             raise Exception('starts and ends are must be same length')
         LFHFlist = []
