@@ -500,7 +500,7 @@ class Detectors:
         return mwa_peaks
 
 
-    def two_average_detector(self, unfiltered_ecg, MWA_name='cumulative'):
+    def two_average_detector(self, unfiltered_ecg, MWA_name='cumulative', QRSsec=0.12, beatsec=0.6):
         """
         Elgendi, Mohamed & Jonkman, 
         Mirjam & De Boer, Friso. (2010).
@@ -516,18 +516,18 @@ class Detectors:
         # v = signal.butter(2, [f1*2, f2*2], btype='bandpass', output="sos")
         # v1 = signal.butter(2, f1*2, btype='low', output="zpk", analog=True)
         # v2 = signal.butter(2, f1*2, btype='low', output="ba")
-        v1 = signal.butter(2, [f1*2, f2*2], btype='bandpass', output="sos")
+        # v1 = signal.butter(2, [f1*2, f2*2], btype='bandpass', output="sos")
         # print(v1)
         # print(b, a)
         # b, a = signal.butter(2, f1*2, btype='low',analog=True)
 
-        filtered_ecg = signal.lfilter(b, a, unfiltered_ecg)
+        # filtered_ecg = signal.lfilter(b, a, unfiltered_ecg)
         filtered_ecg = signal.filtfilt(b, a, unfiltered_ecg)
 
-        window1 = int(0.12*self.fs)
+        window1 = int(QRSsec*self.fs)
         mwa_qrs = MWA_from_name(MWA_name)(abs(filtered_ecg), window1)
 
-        window2 = int(0.6*self.fs)
+        window2 = int(beatsec*self.fs)
         mwa_beat = MWA_from_name(MWA_name)(abs(filtered_ecg), window2)
 
         blocks = np.zeros(len(unfiltered_ecg))

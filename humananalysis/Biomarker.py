@@ -142,7 +142,6 @@ class Biomarker():
         # print(f"{self.EventsDF.index=}")
         print("----------------------------------")
 
-
     def calLFHF(
             self, column: str = "A5", starts: list = [],
             ends: list = [],
@@ -263,7 +262,8 @@ class Biomarker():
     def analyzehrv(
             self, column: str = "A5", starts: list = [],
             ends: list = [],
-            method: str = None,
+            method: str = 'fAnalysis',
+            detector_option: dict = {},
             plot: bool = True) -> list:
         """引数で指定された解析による結果を返す
 
@@ -292,7 +292,7 @@ class Biomarker():
         for start, end in zip(starts, ends):
             ECGSignal = self.DataFrame[column].iloc[start:end].astype('float').values
 
-            peak_index_array, filterd_signal = detectors.two_average_detector(ECGSignal)
+            peak_index_array, filterd_signal = detectors.two_average_detector(ECGSignal, **detector_option)
             peak_index_array = np.array(peak_index_array)
             time = np.arange(0, len(filterd_signal)*self.Interval, self.Interval)
             peak_time_array = peak_index_array*self.Interval
