@@ -365,11 +365,11 @@ class Biomarker():
 
         return LFHFlist
 
-    def showGraph(self, columns: list[str] = [], setplot: bool = True, divplot: bool = True):
+    def showGraph(self, columns: list = [], setplot: bool = True, divplot: bool = True):
         """データの可視化
 
         Args:
-            columns (List[str]): グラフを表示するチャンネル名
+            columns (List): グラフを表示するチャンネル名
             setplot (bool): 一つのウィンドウにまとめて表示
             divplot (bool): 個別にウィンドウに表示
 
