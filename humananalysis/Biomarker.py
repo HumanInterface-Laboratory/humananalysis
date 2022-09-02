@@ -142,7 +142,6 @@ class Biomarker():
         # print(f"{self.EventsDF.index=}")
         print("----------------------------------")
 
-        return
 
     def calLFHF(
             self, channel: str = "A5", starts: list = [],
