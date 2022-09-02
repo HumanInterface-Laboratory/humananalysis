@@ -318,9 +318,24 @@ class Biomarker():
     def calHR(
             self, column: str = "A5", starts: list = [],
             ends: list = [],
-            prominence: float = 1, height: float = None, re_sampling_freq: float = 1,
-            plot: bool = True, plot_vorbose: bool = False, revECG: bool = False) -> list:
+            plot: bool = True, plot_vorbose: bool = False) -> list:
+        """心拍数算出
 
+        Args:
+            column (str): 心電図のチャンネルにあたるカラム
+            starts (List): 解析したい信号の開始インデックスのリスト
+            ends (List): 解析したい信号の終了インデックスのリスト
+            method (str): 心拍変動解析の手法名
+            plot (bool): Rピークの検出結果のグラフを表示するかどうか
+
+        Returns:
+            List : 各start, end区間の心拍数のリスト
+
+        Examples:
+
+        >>> Bio = Biomarker("./data.txt", DeviceName="Nihonkoden")
+        >>> print(Bio.calHR("A5", [0], [-1]))
+        """
         if len(starts) != len(ends):
             raise Exception('starts and ends are must be same length')
         LFHFlist = []
@@ -328,9 +343,7 @@ class Biomarker():
         hrv = HRV(int(1/self.Interval))
         for start, end in zip(starts, ends):
             ECGSignal = self.DataFrame[column].iloc[start:end].astype('float').values
-            if revECG:
-                ECGSignal = -ECGSignal
-            # 以下岡野LFHF3を使用
+
             peak_index_array = detectors.two_average_detector(ECGSignal)
             peak_index_array = np.array(peak_index_array) - 50
             time = np.arange(0, len(ECGSignal)*self.Interval, self.Interval)
