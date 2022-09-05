@@ -136,6 +136,27 @@ class Biomarker():
                 self.MarkersDF = df[~df['DCH1'].str.startswith('0', na=False)]['DCH1']
             else:
                 self.MarkersDF = pd.DataFrame([])
+        elif DeviceName == "Emgeye":
+            with open(DataPath, 'r', encoding='cp932', newline='', errors="replace") as f:
+                lines = list(f.read().splitlines())
+                lines[0].split(",")
+                self.Address = ["data"]
+                self.Unit = []
+                DataStartIdx = 2
+                index_sampling_fs = lines[1].split(",").index("サンプリング周波数")
+                self.Interval = int(1/int(lines[2].split(",")[index_sampling_fs].replace("Hz", ""))*1000) # [msec]
+
+            df = pd.read_csv(DataPath, header=None, names=self.Address, encoding='cp932', skiprows=DataStartIdx+1, dtype="object")
+
+            timestamp = list(range(0, df.shape[0]*self.Interval, self.Interval))
+
+            df["TIME"] = timestamp
+
+            self.DataFrame = df
+            # self.EventsDF = df[~df['Events'].isna()]['Events']
+            # self.MarkersDF = df[~df['Events'].isna()]['Events']
+            self.EventsDF = pd.DataFrame([])
+            self.MarkersDF = pd.DataFrame([])
         else:
             raise ValueError("Please enter the correct device name\n\nNihonkoden\nNexus\nBiolog")
         print("----------------------------------")
