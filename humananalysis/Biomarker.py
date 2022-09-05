@@ -117,7 +117,7 @@ class Biomarker():
                 self.Unit = lines[2].split(",")
                 DataStartIdx = 2
 
-                self.Interval = int(lines[4].split(",")[0].split(".")[-1]) - int(lines[3].split(",")[0].split(".")[-1])
+                self.Interval = int(lines[4].split(",")[0].split(".")[-1]) - int(lines[3].split(",")[0].split(".")[-1])//10
 
             df = pd.read_csv(DataPath, header=None, names=self.Address, encoding='cp932', skiprows=DataStartIdx+1, dtype="object")
 
