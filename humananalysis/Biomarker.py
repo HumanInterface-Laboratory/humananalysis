@@ -133,7 +133,7 @@ class Biomarker():
             self.EventsDF = pd.DataFrame([])
             # TODO: DCH1以外に対応
             if "DCH1" in df.columns:
-                self.MarkersDF = df[df['DCH1'].str.startswith('1', na=False)]['DCH1']
+                self.MarkersDF = df[~df['DCH1'].str.startswith('0', na=False)]['DCH1']
             else:
                 self.MarkersDF = pd.DataFrame([])
         else:
