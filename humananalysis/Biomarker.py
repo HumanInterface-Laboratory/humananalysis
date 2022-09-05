@@ -131,7 +131,11 @@ class Biomarker():
             # self.EventsDF = df[~df['Events'].isna()]['Events']
             # self.MarkersDF = df[~df['Events'].isna()]['Events']
             self.EventsDF = pd.DataFrame([])
-            self.MarkersDF = pd.DataFrame([])
+            # TODO: DCH1以外に対応
+            if "DCH1" in df.columns:
+                self.MarkersDF = df[df['DCH1'].str.startswith('1', na=False)]['DCH1']
+            else:
+                self.MarkersDF = pd.DataFrame([])
         else:
             raise ValueError("Please enter the correct device name\n\nNihonkoden\nNexus\nBiolog")
         print("----------------------------------")
@@ -367,6 +371,8 @@ class Biomarker():
 
     def showGraph(self, columns: list = [], setplot: bool = True, divplot: bool = True):
         """データの可視化
+
+        最後の列はマーカーが入っている想定なので無視していることに注意
 
         Args:
             columns (List): グラフを表示するチャンネル名
