@@ -117,7 +117,7 @@ class Biomarker():
                 self.Unit = lines[2].split(",")
                 DataStartIdx = 2
 
-                self.Interval = (int(lines[4].split(",")[0].split(".")[-1]) - int(lines[3].split(",")[0].split(".")[-1]))//10
+                self.Interval = (int(lines[4].split(",")[0].split(".")[-1]) - int(lines[3].split(",")[0].split(".")[-1]))//10 / 1000
 
             df = pd.read_csv(DataPath, header=None, names=self.Address, encoding='cp932', skiprows=DataStartIdx+1, dtype="object")
 
@@ -144,11 +144,12 @@ class Biomarker():
                 self.Unit = []
                 DataStartIdx = 2
                 index_sampling_fs = lines[1].split(",").index("サンプリング周波数")
-                self.Interval = int(1/int(lines[2].split(",")[index_sampling_fs].replace("Hz", ""))*1000) # [msec]
+                self.Interval = 1/int(lines[2].split(",")[index_sampling_fs].replace("Hz", ""))  # [sec]
 
             df = pd.read_csv(DataPath, header=None, names=self.Address, encoding='cp932', skiprows=DataStartIdx+1, dtype="object")
 
-            timestamp = list(range(0, df.shape[0]*self.Interval, self.Interval))
+            timestamp = list(range(0, int(df.shape[0]*self.Interval*1000), int(self.Interval*1000)))
+
 
             df["TIME"] = timestamp
 
@@ -415,7 +416,7 @@ class Biomarker():
                 ax.plot(df.index * self.Interval, df[column].astype('float'), zorder=1)  # 筋電データ
                 for idx in self.MarkersDF.index:
                     ax.axvline(idx * self.Interval, ls="-", color="red")
-                ax.set_xlabel("time [msec]")
+                ax.set_xlabel("time [sec]")
                 ax.set_ylabel(f"{column}")
 
         if divplot:
@@ -424,7 +425,7 @@ class Biomarker():
                 plt.plot(df.index * self.Interval, df[column].astype('float'), zorder=1)  # 筋電データ
                 for idx in self.MarkersDF.index:
                     plt.axvline(idx * self.Interval, ls="-", color="red")
-                plt.xlabel("time [msec]")
+                plt.xlabel("time [sec]")
                 plt.ylabel(f"{column}")
 
         plt.show()
