@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-1
+
 setup(
     name='humananalysis',
     version="0.1.9",                 # X.Y.Z 形式
