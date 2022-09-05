@@ -12,7 +12,7 @@ from scipy.stats import linregress
 from .py_ecg_detectors.ecgdetectors import Detectors
 from .py_ecg_detectors.hrv import HRV
 import scipy
-
+1
 
 class Biomarker():
 
