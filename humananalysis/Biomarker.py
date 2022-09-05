@@ -124,7 +124,7 @@ class Biomarker():
             timestamp = []
             for i, time in enumerate(df["経過時間"]):
                 now = list(map(int, time.split(".")))
-                timestamp.append(now[0]*24*60*60*1000 + now[1]*60*60*1000 + now[2]*60*1000 + now[3]*1000 + now[4])  # d.hh.mm.ss.msec
+                timestamp.append(now[0]*24*60*60*1000 + now[1]*60*60*1000 + now[2]*60*1000 + now[3]*1000 + now[4]/10)  # d.hh.mm.ss.msec
             df["経過時間"] = timestamp
 
             self.DataFrame = df
