@@ -415,7 +415,7 @@ class Biomarker():
                 ax.plot(df.index * self.Interval, df[column].astype('float'), zorder=1)  # 筋電データ
                 for idx in self.MarkersDF.index:
                     ax.axvline(idx * self.Interval, ls="-", color="red")
-                ax.set_xlabel("time [sec]")
+                ax.set_xlabel("time [msec]")
                 ax.set_ylabel(f"{column}")
 
         if divplot:
@@ -424,7 +424,7 @@ class Biomarker():
                 plt.plot(df.index * self.Interval, df[column].astype('float'), zorder=1)  # 筋電データ
                 for idx in self.MarkersDF.index:
                     plt.axvline(idx * self.Interval, ls="-", color="red")
-                plt.xlabel("time [sec]")
+                plt.xlabel("time [msec]")
                 plt.ylabel(f"{column}")
 
         plt.show()
