@@ -115,7 +115,7 @@ class Biomarker():
                 lines[0].split(",")
                 self.Address = lines[0].split(",")
                 self.Unit = lines[2].split(",")
-                DataStartIdx = 3
+                DataStartIdx = 2
 
                 self.Interval = int(lines[4].split(",")[0].split(".")[-1]) - int(lines[3].split(",")[0].split(".")[-1])
 
